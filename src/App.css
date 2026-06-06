@@ -1,0 +1,5 @@
+/* Clean up default Vite App.css — we use index.css instead */
+.main-content {
+  min-height: calc(100vh - var(--navbar-height));
+  padding-top: var(--navbar-height);
+}

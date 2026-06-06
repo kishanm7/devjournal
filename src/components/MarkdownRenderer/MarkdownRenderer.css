@@ -1,0 +1,141 @@
+/* Markdown Renderer Styles */
+.markdown-body {
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  line-height: 1.85;
+}
+
+.markdown-body p {
+  margin-bottom: var(--space-5);
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4 {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.markdown-body h2 {
+  font-size: var(--text-2xl);
+  margin-top: var(--space-10);
+  margin-bottom: var(--space-4);
+}
+
+.markdown-body h3 {
+  font-size: var(--text-xl);
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-3);
+}
+
+.markdown-body h4 {
+  font-size: var(--text-lg);
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-2);
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  margin-bottom: var(--space-5);
+  padding-left: var(--space-6);
+}
+
+.markdown-body li {
+  margin-bottom: var(--space-2);
+}
+
+.markdown-body strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.markdown-body a {
+  color: var(--accent-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.markdown-body a:hover {
+  color: var(--accent-primary-glow);
+  text-decoration: underline;
+}
+
+/* Tables */
+.table-wrapper {
+  overflow-x: auto;
+  margin: var(--space-6) 0;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-default);
+}
+
+.markdown-body table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.markdown-body th {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  font-weight: 600;
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border-strong);
+}
+
+.markdown-body td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.markdown-body tr:last-child td {
+  border-bottom: none;
+}
+
+.markdown-body tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+[data-theme='light'] .markdown-body tr:nth-child(even) td {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+/* Blockquotes */
+.markdown-body blockquote {
+  border-left: 4px solid var(--accent-primary);
+  padding-left: var(--space-4);
+  margin: var(--space-6) 0;
+  color: var(--text-tertiary);
+  font-style: italic;
+  background: var(--bg-surface);
+  padding: var(--space-4);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.markdown-body blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* Mermaid */
+.mermaid-container {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  margin: var(--space-6) 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: auto;
+}
+
+.mermaid-loading {
+  color: var(--text-tertiary);
+  font-size: var(--text-sm);
+  font-style: italic;
+}
+
+.mermaid-error {
+  color: var(--color-danger);
+  font-weight: 600;
+}
