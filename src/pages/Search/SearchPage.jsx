@@ -14,10 +14,10 @@ export default function SearchPage() {
         <h1 className="search-page-title">
           {query ? (
             <>
-              Results for <span className="gradient-text">&quot;{query}&quot;</span>
+              Figuring out <span className="gradient-text">&quot;{query}&quot;</span>
             </>
           ) : (
-            'Search Topics'
+            'What is confusing you today?'
           )}
         </h1>
 

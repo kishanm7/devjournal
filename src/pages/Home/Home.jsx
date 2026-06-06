@@ -1,233 +1,324 @@
 import { Link } from 'react-router-dom';
-import { TypeAnimation } from 'react-type-animation';
+import { motion } from 'framer-motion';
 import TiltWrapper from '../../components/TiltWrapper/TiltWrapper';
-import { getAllContent, getLatestContent, getStruggleContent } from '../../data/content';
 import syllabus from '../../data/syllabus';
-import DifficultyBadge from '../../components/DifficultyBadge/DifficultyBadge';
 import './Home.css';
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.2 }
+  }
+};
+
 export default function Home() {
-  const allContent = getAllContent();
-  const latestContent = getLatestContent(4);
-  const struggleContent = getStruggleContent();
-
-  // Count covered topics per phase
-  const phaseCoverage = syllabus.map((phase) => {
-    const totalTopics = phase.modules.reduce((sum, m) => sum + m.topics.length, 0);
-    const coveredTopics = allContent.filter((c) => c.phase === phase.phase).length;
-    return { ...phase, totalTopics, coveredTopics };
-  });
-
   return (
-    <div className="home">
-      {/* Hero Section */}
-      <section className="hero" id="hero-section">
-        <div className="hero-bg">
-          <div className="hero-orb hero-orb-1"></div>
-          <div className="hero-orb hero-orb-2"></div>
-          <div className="hero-orb hero-orb-3"></div>
-        </div>
-        <div className="hero-content animate-fade-in-up">
-          <div className="hero-badge">
-            <span className="hero-badge-dot"></span>
-            Currently learning: 100 Days of Code
-          </div>
-          <h1 className="hero-title">
-            Master Web Development. <br />
-            <span className="text-gradient">No Bullshit.</span>
-          </h1>
-          <div className="hero-subtitle">
-            <TypeAnimation
-              sequence={[
-                'Track your learning journey step by step.',
-                2000,
-                'Document your "Struggle Spots".',
-                2000,
-                'Gamify your technical knowledge.',
-                2000,
-                'Prepare for your next technical interview.',
-                2000,
-              ]}
-              wrapper="p"
-              speed={50}
-              repeat={Infinity}
-              className="typewriter-text"
-            />
-          </div>
-          <div className="hero-stats">
-            <div className="hero-stat">
-              <span className="hero-stat-number">{allContent.length}</span>
-              <span className="hero-stat-label">Topics Covered</span>
+    <div className="home-warm">
+      {/* Background Grid - Very Subtle */}
+      <div className="bg-grid-overlay-warm"></div>
+
+      {/* 1. HERO SECTION */}
+      <section className="hero-warm">
+        <div className="hero-inner-warm">
+          <motion.div 
+            className="hero-content-left"
+            initial="hidden"
+            animate="visible"
+            variants={staggerContainer}
+          >
+            <motion.h1 variants={fadeUp} className="hero-headline">
+              Learn Web Development Through Real Experience
+            </motion.h1>
+            
+            <motion.p variants={fadeUp} className="hero-subheadline">
+              A premium interactive platform built on actual developer journeys, struggles, and aha moments. Stop watching tutorials and start building.
+            </motion.p>
+            
+            <motion.div variants={fadeUp} className="hero-metrics">
+              <div className="metric">
+                <span className="metric-val">72+</span>
+                <span className="metric-label">Topics Learned</span>
+              </div>
+              <div className="metric">
+                <span className="metric-val">8</span>
+                <span className="metric-label">Projects Built</span>
+              </div>
+              <div className="metric">
+                <span className="metric-val text-accent">14🔥</span>
+                <span className="metric-label">Current Streak</span>
+              </div>
+            </motion.div>
+
+            <motion.div variants={fadeUp} className="hero-actions">
+              <Link to="/phase/phase-1" className="btn-primary-warm">
+                Start Learning
+              </Link>
+              <a href="#projects" className="btn-secondary-warm" onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+              }}>
+                Explore Projects
+              </a>
+            </motion.div>
+          </motion.div>
+
+          <motion.div 
+            className="hero-visual-right"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <div className="image-frame-warm">
+              <img src="/assets/hero_workspace_warm.png" alt="Developer Workspace" className="hero-img-warm" />
             </div>
-            <div className="hero-stat-divider"></div>
-            <div className="hero-stat">
-              <span className="hero-stat-number">{struggleContent.length}</span>
-              <span className="hero-stat-label">Struggle Spots</span>
-            </div>
-            <div className="hero-stat-divider"></div>
-            <div className="hero-stat">
-              <span className="hero-stat-number">{syllabus.length}</span>
-              <span className="hero-stat-label">Phases</span>
-            </div>
-          </div>
-          <div className="hero-actions">
-            <Link to="/phase/phase-1" className="btn-primary" id="start-learning-btn">
-              Start Learning
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </Link>
-            <button
-              onClick={() => document.getElementById('phases-section')?.scrollIntoView({ behavior: 'smooth' })}
-              className="btn-secondary"
-              id="explore-btn"
-            >
-              Explore Phases
-            </button>
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* What Makes This Different */}
-      <section className="features-section" id="features-section">
-        <div className="section-container">
-          <h2 className="section-title">Not Your Typical Tutorial Site</h2>
-          <p className="section-subtitle">This isn&apos;t AI-generated content or copy-pasted docs. It&apos;s a real developer sharing real learnings — the good, the bad, and the confusing.</p>
-          <div className="features-grid stagger-children">
-            <TiltWrapper scale={1.05} maxTilt={10}>
-              <div className="feature-card h-100">
-                <div className="feature-icon struggle-anim">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                  </svg>
-                </div>
-                <h3>Struggle Spots</h3>
-                <p>Don't hide what you don't know. Document exactly what confused you, and log the "Aha!" moment when it finally clicks.</p>
+      {/* 2. CURRENTLY LEARNING */}
+      <motion.section 
+        className="section-container"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={fadeUp}
+      >
+        <TiltWrapper scale={1.01} maxTilt={2}>
+          <div className="currently-learning-card card">
+            <div className="cl-header">
+              <span className="status-live">Currently Exploring JavaScript Operators</span>
+            </div>
+            <div className="cl-body">
+              <div className="cl-stats">
+                <span className="cl-percent">In Progress</span>
+                <span className="cl-topic">Phase 1 · Module 2</span>
               </div>
-            </TiltWrapper>
-
-            <TiltWrapper scale={1.05} maxTilt={10}>
-              <div className="feature-card h-100">
-                <div className="feature-icon interactive-anim">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="16 18 22 12 16 6"></polyline>
-                    <polyline points="8 6 2 12 8 18"></polyline>
-                  </svg>
-                </div>
-                <h3>Interactive Code</h3>
-                <p>Every concept comes with a built-in sandbox. Don't just read about closure — break the code and fix it yourself.</p>
+              <div className="cl-discovery">
+                <h4>Latest Focus</h4>
+                <p>Deep diving into logical operators, type coercion, and memory allocation. Trying to understand the difference between == and === under the hood.</p>
               </div>
-            </TiltWrapper>
-
-            <TiltWrapper scale={1.05} maxTilt={10}>
-              <div className="feature-card h-100">
-                <div className="feature-icon english-anim">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                  </svg>
-                </div>
-                <h3>Simple English</h3>
-                <p>Written by a developer, for a developer. No academic jargon. Just clear explanations of how things actually work.</p>
-              </div>
-            </TiltWrapper>
-
-            <TiltWrapper scale={1.05} maxTilt={10}>
-              <div className="feature-card h-100">
-                <div className="feature-icon" style={{ background: 'rgba(139, 92, 246, 0.1)', color: '#8b5cf6' }}>📊</div>
-                <h3>Difficulty Ratings</h3>
-                <p>Every topic is rated by difficulty so you know what to brace for and can plan your study sessions.</p>
-              </div>
-            </TiltWrapper>
+              <Link to="/topic/mod-1-2-operators" className="btn-text">View active notes →</Link>
+            </div>
           </div>
-        </div>
-      </section>
+        </TiltWrapper>
+      </motion.section>
 
-      {/* Phases Overview */}
-      <section className="phases-section" id="phases-section">
-        <div className="section-container">
-          <h2 className="section-title">The Learning Path</h2>
-          <p className="section-subtitle">7 phases, 72 modules, one complete journey from JavaScript basics to DevOps mastery.</p>
-          <div className="phases-grid stagger-children">
-            {syllabus.map(phase => (
-              <TiltWrapper 
-                key={phase.id} 
-                scale={1.03} 
-                maxTilt={6}
-              >
-                <div style={{ '--phase-color': phase.color, width: '100%', height: '100%' }}>
-                  <Link to={`/phase/${phase.id}`} className="phase-card">
-                    <div className="phase-card-header">
-                      <span className="phase-icon">{phase.icon}</span>
-                      <span className="phase-number">Phase {phase.phase}</span>
+      {/* 3. INTERACTIVE WORLD MAP */}
+      <motion.section 
+        className="section-container"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={staggerContainer}
+      >
+        <div className="section-header">
+          <h2>The Developer's Map</h2>
+          <p>Embark on the journey. Conquer the zones. Level up your skills.</p>
+        </div>
+
+        <div className="world-map">
+          {[
+            { id: 'phase-1', title: 'JavaScript City', icon: '🏙️', desc: 'Core logic, functions, async/await', color: '#F59E0B', status: 'active', xp: '350 XP' },
+            { id: 'phase-2', title: 'React Mountain', icon: '⛰️', desc: 'Components, state, effects', color: '#3b82f6', status: 'locked', xp: '0 XP' },
+            { id: 'phase-3', title: 'Backend Kingdom', icon: '🏰', desc: 'Node.js, Express, Databases', color: '#10b981', status: 'locked', xp: '0 XP' },
+            { id: 'phase-4', title: 'DevOps Summit', icon: '🏔️', desc: 'Deployment, CI/CD, Docker', color: '#8b5cf6', status: 'locked', xp: '0 XP' }
+          ].map((zone, idx) => (
+            <div key={zone.id} className={`map-zone ${zone.status}`}>
+              <div className="zone-connector"></div>
+              <TiltWrapper scale={1.05} maxTilt={5}>
+                <Link to={`/phase/${zone.id}`} className="zone-card card">
+                  <div className="zone-icon" style={{ backgroundColor: zone.color + '22', color: zone.color }}>
+                    {zone.icon}
+                  </div>
+                  <div className="zone-info">
+                    <div className="zone-meta">
+                      <span className="zone-status-label">{zone.status.toUpperCase()}</span>
+                      <span className="zone-xp">{zone.xp}</span>
                     </div>
-                    <h3 className="phase-title">{phase.title}</h3>
-                    <p className="phase-desc">{phase.description}</p>
-                    <div className="phase-progress">
-                      <div className="phase-progress-bar">
-                        <div 
-                          className="phase-progress-fill" 
-                          style={{ width: '0%', background: 'var(--phase-color)' }}
-                        ></div>
+                    <h3>{zone.title}</h3>
+                    <p>{zone.desc}</p>
+                    {zone.status === 'active' && (
+                      <div className="zone-progress">
+                        <div className="progress-bar">
+                          <div className="progress-fill" style={{ width: '45%', backgroundColor: zone.color }}></div>
+                        </div>
+                        <span className="progress-text">45% Explored</span>
                       </div>
-                      <span className="phase-progress-text">0%</span>
+                    )}
+                  </div>
+                  {zone.status === 'locked' && (
+                    <div className="zone-lock-overlay">
+                      <span>🔒 Complete previous zone to unlock</span>
                     </div>
-                    <span className="phase-module-count">{phase.modules.length} Modules</span>
-                  </Link>
-                </div>
+                  )}
+                </Link>
               </TiltWrapper>
-            ))}
+            </div>
+          ))}
+          
+          <div className="boss-battle-marker">
+            <span className="boss-icon">🐉</span>
+            <h4>Capstone Boss: Fullstack App</h4>
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      {/* Recently Added */}
-      {latestContent.length > 0 && (
-        <section className="recent-section" id="recent-section">
-          <div className="section-container">
-            <h2 className="section-title">Recently Added</h2>
-            <p className="section-subtitle">The latest topics from my learning journey.</p>
-            <div className="recent-grid stagger-children">
-              {latestContent.map((topic) => (
-                <TiltWrapper key={topic.id} scale={1.03} maxTilt={8}>
-                  <Link to={`/topic/${topic.id}`} className="recent-card h-100">
-                    <div className="recent-card-top">
-                      {topic.struggleSpot?.hasStruggle && (
-                        <span className="struggle-tag">🤔 Struggle Spot</span>
-                      )}
-                      {topic.resources?.length > 0 && (
-                        <span className="pdf-tag">📎 Includes PDF</span>
-                      )}
-                    </div>
-                    <h3 className="recent-card-title">{topic.title}</h3>
-                    <p className="recent-card-overview">{topic.overview}</p>
-                    <div className="recent-card-meta">
-                      <DifficultyBadge level={topic.difficulty} />
-                      <span>{topic.estimatedReadTime}</span>
-                    </div>
-                  </Link>
-                </TiltWrapper>
-              ))}
+      {/* 4. LESSONS I WISH I KNEW EARLIER */}
+      <motion.section 
+        className="section-container"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+      >
+        <div className="section-header">
+          <h2>Things I Wish Someone Told Me Earlier</h2>
+        </div>
+
+        <div className="lessons-grid">
+          <TiltWrapper scale={1.02} maxTilt={4}>
+            <motion.div variants={fadeUp} className="lesson-card card h-100">
+              <h3>Why I stopped tutorial hopping</h3>
+              <p>I realized that following a video exactly doesn't teach you how to think. You have to break the code to understand it.</p>
+            </motion.div>
+          </TiltWrapper>
+          
+          <TiltWrapper scale={1.02} maxTilt={4}>
+            <motion.div variants={fadeUp} className="lesson-card card h-100">
+              <h3>My biggest CSS mistake</h3>
+              <p>Overusing absolute positioning. Learning CSS Grid properly eliminated 90% of my layout headaches.</p>
+            </motion.div>
+          </TiltWrapper>
+
+          <TiltWrapper scale={1.02} maxTilt={4}>
+            <motion.div variants={fadeUp} className="lesson-card card h-100">
+              <h3>What finally made JavaScript click</h3>
+              <p>Drawing the Call Stack and Event Loop on paper. You can't understand async code until you know where it waits.</p>
+            </motion.div>
+          </TiltWrapper>
+          
+          <TiltWrapper scale={1.02} maxTilt={4}>
+            <motion.div variants={fadeUp} className="lesson-card card h-100">
+              <h3>The habit that improved consistency</h3>
+              <p>Writing developer notes (like this site). Explaining it in simple English proves whether you actually understand it.</p>
+            </motion.div>
+          </TiltWrapper>
+        </div>
+      </motion.section>
+
+      {/* 5. THE REALITY BEHIND THE JOURNEY */}
+      <motion.section 
+        className="section-container"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+      >
+        <div className="authenticity-section card">
+          <motion.div variants={fadeUp} className="auth-image">
+            <img src="/assets/authenticity_workspace.png" alt="Late night coding" />
+          </motion.div>
+          
+          <motion.div variants={fadeUp} className="auth-content">
+            <h2>The Reality Behind the Journey</h2>
+            <div className="story-text">
+              <p>It's easy to look at a completed portfolio and think it was a straight line. It wasn't.</p>
+              <p>For every green commit square, there are hours of staring at hydration errors, confusing CORS policies, and wondering if I was actually cut out for this.</p>
+              <p><strong>What changed?</strong> I stopped trying to be perfect. I started documenting the slow progress, the trial and error, and the struggles. That's what this platform is really about.</p>
+            </div>
+          </motion.div>
+        </div>
+      </motion.section>
+
+      {/* 6. PROJECT SHOWCASE */}
+      <motion.section 
+        id="projects"
+        className="section-container full-width-section"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerContainer}
+      >
+        <div className="section-header">
+          <h2>Project Case Studies</h2>
+        </div>
+
+        <div className="showcase-grid">
+          <TiltWrapper scale={1.01} maxTilt={2}>
+            <motion.div variants={fadeUp} className="showcase-card card">
+              <div className="showcase-img-container">
+                <div className="browser-mockup">
+                  <div className="browser-header">
+                    <div className="browser-dots"><span></span><span></span><span></span></div>
+                    <div className="browser-address">devjournal.vercel.app</div>
+                  </div>
+                  <img src="/assets/project_showcase.png" alt="Project Screenshot" />
+                </div>
+              </div>
+              <div className="showcase-info">
+                <h3>DevJournal Analytics Dashboard</h3>
+                <div className="case-study-details">
+                  <div className="detail-item">
+                    <span className="label text-danger">Problem</span>
+                    <p>Wanted to visualize my daily coding hours and streak data dynamically.</p>
+                  </div>
+                  <div className="detail-item">
+                    <span className="label text-success">Solution</span>
+                    <p>Built a custom React dashboard using Chart.js with mocked backend data.</p>
+                  </div>
+                  <div className="detail-item">
+                    <span className="label text-accent">Learning</span>
+                    <p>Improved async JavaScript understanding and component lifecycle optimization.</p>
+                  </div>
+                </div>
+                <div className="showcase-actions">
+                  <button className="btn-secondary-warm" onClick={() => alert('Project live link coming soon!')}>View Project</button>
+                  <button className="btn-text" onClick={() => alert('Case study coming soon!')}>Read Journey →</button>
+                </div>
+              </div>
+            </motion.div>
+          </TiltWrapper>
+        </div>
+      </motion.section>
+
+      {/* 7. PREMIUM FOOTER */}
+      <footer className="footer-authentic">
+        <div className="footer-inner">
+          <div className="footer-left">
+            <div className="footer-logo">
+              <span className="logo-text">DevJournal</span>
+            </div>
+            <p className="footer-statement">
+              Documenting the journey so others can learn from both the wins and the mistakes.
+            </p>
+            <div className="social-links">
+              <a href="https://github.com/kishanm7" target="_blank" rel="noreferrer">GitHub</a>
+              <a href="#">LinkedIn</a>
+              <a href="#">Twitter</a>
             </div>
           </div>
-        </section>
-      )}
-
-      {/* Footer */}
-      <footer className="footer" id="footer">
-        <div className="section-container">
-          <div className="footer-content">
-            <div className="footer-brand">
-              <span className="nav-logo-icon">dj</span>
-              <span className="footer-name">DevJournal</span>
+          <div className="footer-links">
+            <div className="link-group">
+              <h4>Journey</h4>
+              <Link to="/phase/phase-1">JavaScript</Link>
+              <Link to="/phase/phase-2">React</Link>
+              <Link to="/dashboard">Dashboard</Link>
             </div>
-            <p className="footer-text">
-              Built with ☕ and curiosity during the 100 Days of Code journey.
-            </p>
-            <p className="footer-copy">
-              © {new Date().getFullYear()} DevJournal. Learning in public.
-            </p>
+            <div className="link-group">
+              <h4>Resources</h4>
+              <Link to="/search">Search Notes</Link>
+              <Link to="/study">Study Mode</Link>
+            </div>
           </div>
+        </div>
+        <div className="footer-bottom">
+          <p>© 2026 DevJournal. Building in public.</p>
         </div>
       </footer>
     </div>

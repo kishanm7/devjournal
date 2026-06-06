@@ -1,0 +1,37 @@
+.xp-popup-container {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.xp-popup {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 20px;
+  background: var(--bg-surface);
+  border: 1px solid var(--accent-primary);
+  box-shadow: 0 10px 30px var(--accent-primary-glow);
+  color: var(--text-primary);
+}
+
+.xp-popup-icon {
+  font-size: 1.5rem;
+}
+
+.xp-popup-content h4 {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--accent-primary);
+}
+
+.xp-popup-content p {
+  margin: 2px 0 0;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}

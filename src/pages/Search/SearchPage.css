@@ -1,7 +1,11 @@
 .search-page {
   max-width: var(--content-max-width);
   margin: 0 auto;
-  padding: var(--space-8) var(--space-6) var(--space-20);
+  padding-top: calc(var(--navbar-height) + var(--space-8));
+  padding-bottom: var(--space-16);
+  min-height: calc(100vh - var(--navbar-height));
+  padding-left: var(--space-6);
+  padding-right: var(--space-6);
 }
 
 .search-page-title {

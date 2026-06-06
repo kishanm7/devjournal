@@ -8,6 +8,7 @@ import SearchPage from './pages/Search/SearchPage';
 import StudyPage from './pages/Study/StudyPage';
 import DashboardPage from './pages/Dashboard/DashboardPage';
 import AITutor from './components/AITutor/AITutor';
+import XpPopup from './components/XpPopup/XpPopup';
 
 export const ThemeContext = createContext();
 
@@ -42,6 +43,9 @@ function App() {
         
         {/* Floating AI Tutor */}
         <AITutor />
+        
+        {/* Gamification Popups */}
+        <XpPopup />
       </div>
     </ThemeContext.Provider>
   );

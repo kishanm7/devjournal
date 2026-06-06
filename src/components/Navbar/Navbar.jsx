@@ -94,7 +94,7 @@ export default function Navbar() {
             <input
               ref={searchRef}
               type="text"
-              placeholder="Search topics..."
+              placeholder="Why do closures confuse me?"
               className="nav-search-input"
               id="nav-search-input"
               value={searchQuery}
@@ -133,6 +133,9 @@ export default function Navbar() {
         <div className="nav-actions">
           <Link to="/" className="nav-link" id="nav-link-home">
             Home
+          </Link>
+          <Link to="/phase/phase-1" className="nav-link" id="nav-link-learning">
+            Learning
           </Link>
           <Link to="/study" className="nav-link" id="nav-link-study">
             Study Mode
@@ -177,9 +180,9 @@ export default function Navbar() {
         {mobileMenuOpen && (
           <div className="nav-mobile-menu animate-fade-in">
             <Link to="/" className="nav-mobile-link">Home</Link>
-            <Link to="/phase/phase-1" className="nav-mobile-link">JavaScript</Link>
-            <Link to="/phase/phase-2" className="nav-mobile-link">Backend</Link>
-            <Link to="/phase/phase-3" className="nav-mobile-link">System Design</Link>
+            <Link to="/phase/phase-1" className="nav-mobile-link">Learning</Link>
+            <Link to="/dashboard" className="nav-mobile-link">Dashboard</Link>
+            <Link to="/study" className="nav-mobile-link">Study Mode</Link>
           </div>
         )}
       </div>

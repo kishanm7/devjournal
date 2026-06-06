@@ -8,6 +8,9 @@ import DifficultyBadge from '../../components/DifficultyBadge/DifficultyBadge';
 import CodeSandbox from '../../components/CodeSandbox/CodeSandbox';
 import CodeBlock from '../../components/CodeBlock/CodeBlock';
 import MarkdownRenderer from '../../components/MarkdownRenderer/MarkdownRenderer';
+import QuizEngine from '../../components/QuizEngine/QuizEngine';
+import InteractiveChallenge from '../../components/InteractiveChallenge/InteractiveChallenge';
+import { useGamification } from '../../context/GamificationContext';
 import './TopicPage.css';
 
 export default function TopicPage() {
@@ -16,6 +19,7 @@ export default function TopicPage() {
 
   const [isCompleted, setIsCompleted] = useState(false);
   const startTimeRef = useRef(Date.now());
+  const { addXp, completeLesson } = useGamification();
 
   // Scroll to top and reset timer on topic change
   useEffect(() => {
@@ -36,6 +40,8 @@ export default function TopicPage() {
     if (!isCompleted) {
       markTopicComplete(topicId);
       setIsCompleted(true);
+      completeLesson(topicId);
+      addXp(100, 'Topic Mastered!');
       
       // Fire confetti!
       const end = Date.now() + 1.5 * 1000;
@@ -173,6 +179,36 @@ export default function TopicPage() {
             />
           </section>
         )}
+
+        {/* Gamified Challenge */}
+        <section className="topic-section">
+          <InteractiveChallenge 
+            title={topic.title + " Challenge"}
+            description={`Apply what you've learned about ${topic.title}. Console log the expected string.`}
+            initialCode={`// Write your code here to output 'Success!'\n\nconsole.log('Success!');`}
+            expectedOutput="Success!"
+          />
+        </section>
+
+        {/* Gamified Quiz */}
+        <section className="topic-section">
+          <QuizEngine 
+            questions={topic.quiz || [
+              {
+                question: `Which concept is central to understanding ${topic.title}?`,
+                options: ["Memory Allocation", "Call Stack", "Lexical Environment", "All of the above"],
+                correctAnswer: 3,
+                explanation: `${topic.title} relies on understanding the complete JavaScript execution context.`
+              },
+              {
+                question: "What happens if you don't properly handle errors here?",
+                options: ["Nothing", "Memory Leak", "Silent Failure or Crash", "Performance Boost"],
+                correctAnswer: 2,
+                explanation: "Uncaught exceptions usually lead to script termination or silent UI failures."
+              }
+            ]}
+          />
+        </section>
 
         {/* Struggle Spot */}
         {topic.struggleSpot?.hasStruggle && (
